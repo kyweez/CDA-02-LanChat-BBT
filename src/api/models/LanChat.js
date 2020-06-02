@@ -20,5 +20,13 @@ class LanChat {
     update(_user, _email) {
         _user.email = _email;
     }
+    read(_username) {
+        for (let i = 0; i < this.user.length; i++) {
+            if (this.user[i].username == _username) {
+                console.log(this.user[i]);
+                break;
+            }
+        }
+    }
 }
 module.exports = LanChat;

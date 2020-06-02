@@ -8,5 +8,5 @@ var user2 = new User("aucun",123,"aucun@mail.fr");
 chat.create(user1);
 chat.create(user2);
 chat.update(user1, "autre@mail.fr");
-
 chat.delete("aucun");
+chat.read("moi");
