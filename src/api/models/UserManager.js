@@ -1,6 +1,6 @@
 const User = require('./User.js');
 
-class LanChat {
+class UserManager {
     constructor() {
         this.user = [];
     }
@@ -79,4 +79,4 @@ class LanChat {
         return undefined;
     }
 }
-module.exports = LanChat;
+module.exports = UserManager;
