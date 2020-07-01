@@ -26,3 +26,24 @@
 ```
 Prochaine réunion prévue le 8 juin 2020 pour une mise en commun du travail et un premier push sur la branche develop
 ```
+
+## Réunion du 29 juin 2020 :
+**@General :**
+  * Nous n’avons pas trop travaillé sur le projet ces derniers temps
+  * Nous n’avons pas fait de mise en commun
+  * Nous devons statuer sur le langage à choisir pour le back-end : JS/Node ou C#/.NET
+        
+**@Tim :**
+  * Doit mettre à jour sa branche
+  
+**@Sylvain :**
+  * Supprimer sa classe User
+  * Renommer sa classe en UserManager
+  
+**@kyweez :**
+  * Supprimer la branche de patch
+  * Nous n’avons pas trop travaillé sur le projet ces derniers temps
+
+```
+Prochaine réunion pas encore fixée. @kyweez va commencer le transpilage vers le C#
+```
