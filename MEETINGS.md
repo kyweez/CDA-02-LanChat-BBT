@@ -42,7 +42,6 @@ Prochaine réunion prévue le 8 juin 2020 pour une mise en commun du travail et 
   
 **@kyweez :**
   * Supprimer la branche de patch
-  * Nous n’avons pas trop travaillé sur le projet ces derniers temps
 
 ```
 Prochaine réunion pas encore fixée. @kyweez va commencer le transpilage vers le C#
