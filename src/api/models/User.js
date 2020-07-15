@@ -1,7 +1,8 @@
 const Security = require("./Security.js");
 
 class User {
-    // ############### ATTRIBUTS ###############
+    // ############### ATTRIBUTES ###############
+    #id
     #lastname;
     #firstname;
     #username;
@@ -11,7 +12,9 @@ class User {
     #lastLogged;
     #isLogged;
 
+    // ############### CONSTRUCTOR ###############
     constructor(_lastname, _firstname, _username, _password, _email) {
+        this.#id = 0;
         this.#lastname = this.setLastname(_lastname);
         this.#firstname = this.setFirstName(_firstname);
         this.#username = this.setUserName(_username);
@@ -21,6 +24,10 @@ class User {
     }
 
     // ############### GETTERS ###############
+    getId() {
+        return this.#id;
+    }
+
     getLastname() {
         return this.#lastname;
     }
@@ -54,8 +61,17 @@ class User {
     }
 
     // ############### SETTERS ###############
+    setId(_id) {
+        if (!Security.isValidId(_id)) {
+            this.#id = 0;
+            return false;
+        }
+        this.#id = _id;
+        return true;
+    }
+
     setLastname(_lastname) {
-        if (Security.isValidName(_lastname)){
+        if (!Security.isValidName(_lastname)) {
             this.#lastname = "";
             return false;
         }
@@ -64,7 +80,7 @@ class User {
     }
 
     setFirstName(_firstname) {
-        if (Security.isValidName(_firstname)){
+        if (!Security.isValidName(_firstname)) {
             this.#firstname = "";
             return false;
         }
@@ -73,7 +89,7 @@ class User {
     }
 
     setUserName(_username) {
-        if (Security.isValidUsername(_username)){
+        if (!Security.isValidUsername(_username)) {
             this.#username = "";
             return false;
         }
@@ -82,7 +98,7 @@ class User {
     }
 
     setPassword(_password) {
-        if (typeof _password !== "string"){
+        if (typeof _password !== "string") {
             this.#password = "";
             return false;
         }
@@ -91,7 +107,7 @@ class User {
     }
 
     setEmail(_email) {
-        if (Security.isValidEmail(_email)){
+        if (!Security.isValidEmail(_email)) {
             this.#email = "";
             return false;
         }
@@ -103,7 +119,7 @@ class User {
         /**
          * @todo Voir comment on fait changer le truc ?
          */
-        if (Security.isValidDate(_lastLogged)){
+        if (!Security.isValidDate(_lastLogged)) {
             this.#lastLogged = new Date();
             return false;
         }
@@ -112,7 +128,7 @@ class User {
     }
 
     setIsLogged(_isLogged) {
-        if (typeof _isLogged !== "boolean"){
+        if (typeof _isLogged !== "boolean") {
             this.#isLogged = false;
             return false;
         }
