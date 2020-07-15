@@ -22,7 +22,7 @@ class UserManager {
 
     create(_user) {
         if (!Security.isValidUser(_user))
-            return false;
+            return undefined;
         _user.setId(this.newID());
         this.#userTab.push(_user);
         return _user;
@@ -30,18 +30,13 @@ class UserManager {
 
     //@param  _filter le(s) filtre(s) à appliquer sous forme d'expression lambda (ex: item => item.id === 2)
     read(_filter) {
-        // let currentUser = this.#userTab.find(_filter);
-
-        // if (!Security.isValidUser(currentUser))
-        //     return undefined;
-        // return Object.assign(new User(), currentUser);
         return Object.assign(new User(), this.#userTab.find(_filter));
     }
 
     /**
      * ICI ON A STOP  !!
      */
-    
+
     update(){}
 
     delete(_username) {

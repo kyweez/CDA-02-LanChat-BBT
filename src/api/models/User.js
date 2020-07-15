@@ -15,11 +15,11 @@ class User {
     // ############### CONSTRUCTOR ###############
     constructor(_lastname, _firstname, _username, _password, _email) {
         this.#id = 0;
-        this.#lastname = this.setLastname(_lastname);
-        this.#firstname = this.setFirstName(_firstname);
-        this.#username = this.setUserName(_username);
-        this.#password = this.setPassword(_password);
-        this.#email = this.setEmail(_email);
+        this.setLastname(_lastname) || this.setLastname("");
+        this.setFirstname(_firstname) || this.setFirstname("");
+        this.setUserName(_username) || this.setUserName("");
+        this.setPassword(_password);
+        this.setEmail(_email) || this.setPassword("");
         this.#creationDate = new Date();
     }
 
@@ -32,7 +32,7 @@ class User {
         return this.#lastname;
     }
 
-    getFirsname() {
+    getFirstname() {
         return this.#firstname;
     }
 
@@ -79,7 +79,7 @@ class User {
         return true;
     }
 
-    setFirstName(_firstname) {
+    setFirstname(_firstname) {
         if (!Security.isValidName(_firstname)) {
             this.#firstname = "";
             return false;
@@ -102,8 +102,8 @@ class User {
             this.#password = "";
             return false;
         }
-        this.#password = _password;
-        return true
+        this.#password = Security.encryptPassword(_password);
+        return true;
     }
 
     setEmail(_email) {
@@ -135,6 +135,33 @@ class User {
         this.#isLogged = _isLogged;
         return true;
     }
+
+    // ############### METHODS ###############
+    toString() {
+        let str;
+
+        str = `Lastname : ${this.#lastname}\n`;
+        str += `Firstname : ${this.#firstname}\n`;
+        str += `Username : ${this.#username}\n`;
+        str += `Email : ${this.#email}\n`;
+        str += `Password : ${this.#password}\n`;
+    }
 }
 
+let userTest1 = new User("aure", "boubou", "boudaure", "123", "aure@gmail.com");
+
+console.log(userTest1 instanceof User);
+console.log(userTest1.getLastname());
+console.log(userTest1.getFirstname());
+console.log(userTest1.getUsername());
+console.log(userTest1.getEmail());
+console.log(userTest1 instanceof User);
+
+console.log('le dernier console.log ', userTest1.getPassword());
+console.log(Security.checkEncryptedPassword("1234", userTest1.getPassword()));
+
 module.exports = User;
+
+
+
+
