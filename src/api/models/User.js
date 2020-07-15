@@ -1,6 +1,4 @@
-const security = require("./Security.js");
 const Security = require("./Security.js");
-const { isValidDate } = require("./Security.js");
 
 class User {
     // ############### ATTRIBUTS ###############

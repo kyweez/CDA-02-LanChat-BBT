@@ -1,4 +1,5 @@
-const User = require('./User.js');
+const User = require("./User.js");
+const Security = require("./Security.js");
 
 class UserManager {
     constructor() {
