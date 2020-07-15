@@ -1,94 +1,123 @@
 class User {
+    // ############### ATTRIBUTS ###############
+    #lastname;
+    #firstname;
+    #username;
+    #password;
+    #email;
+    #creationDate;
+    #lastLogged;
+    #isLogged;
 
     constructor(_lastname, _firstname, _username, _password, _email) {
-        this.lastname = _lastname || "";
-        this.firstname = _firstname || "";
-        this.username = _username || "";
-        this.password = _password;
-        this.email = _email;
-        this.creationDate = new Date();
-        this.lastLogged = new Date();
-        this.isLogged = false;
-
-
-
-
-
-        // ############### GETTERS ###############
-
-
-    }
-    get_Name() {
-        return this._name;
-
+        this.#lastname = this.setLastname(_lastname);
+        this.#firstname = this.setFirstName(_firstname);
+        this.#username = this.setUserName(_username);
+        this.#password = this.setPassword(_password);
+        this.#email = this.setEmail(_email);
+        this.#creationDate = new Date();
     }
 
-    get_FirsName() {
-        return this.firstname;
+    // ############### GETTERS ###############
+    getLastname() {
+        return this.#lastname;
     }
 
-    get_UserName() {
-        return this.username;
-    }
-    get_PassWord() {
-        return this.password;
-    }
-    get_Email() {
-        return this.email;
-    }
-    get_CreationDate() {
-        return this.creationDate;
+    getFirsname() {
+        return this.#firstname;
     }
 
-    get_LastLogged() {
-        return this.lastLogged;
+    getUsername() {
+        return this.#username;
     }
 
-    get_IsLogged() {
-        return this.isLogged;
+    getPassword() {
+        return this.#password;
     }
 
+    getEmail() {
+        return this.#email;
+    }
+
+    getCreationDate() {
+        return this.#creationDate;
+    }
+
+    getLastLogged() {
+        return this.#lastLogged;
+    }
+
+    getIsLogged() {
+        return this.#isLogged;
+    }
 
     // ############### SETTERS ###############
-
-
-    set_Name(_name) {
-        this._name = thisname;
+    setLastname(_lastname) {
+        if (typeof _lastname !== "string"){
+            this.#lastname = "";
+            return false;
+        }
+        this.#lastname = _lastname;
+        return true;
     }
 
-    set_FirstName(_firstname) {
-        this._firstname = firstname
+    setFirstName(_firstname) {
+        if (typeof _firstname !== "string"){
+            this.#firstname = "";
+            return false;
+        }
+        this.#firstname = _firstname;
+        return true;
     }
 
-    set_UserName(_username) {
-        this._username = username;
-    }
-    set_Password(_password) {
-        this._password = password;
-    }
-    set_Email(_email) {
-        this._email = email;
-    }
-    set_CreationDate(_creationDate) {
-        this._creationDate = creationDate;
+    setUserName(_username) {
+        if (typeof _username !== "string"){
+            this.#username = "";
+            return false;
+        }
+        this.#username = _username;
+        return true
     }
 
-    set_LastLogged(_lastLogged) {
-        this._lastLogged = lastLogged;
+    setPassword(_password) {
+        if (typeof _password !== "string"){
+            this.#password = "";
+            return false;
+        }
+        this.#password = _password;
+        return true
     }
 
-    set_IsLogged(_isLogged) {
-        this._isLogged = isLogged;
+    setEmail(_email) {
+        if (typeof _email !== "string"){
+            this.#email = "";
+            return false;
+        }
+        this.#email = _email;
+        return true
     }
 
+    setLastLogged(_lastLogged) {
+        /**
+         * @todo Voir comment on fait changer le truc ?
+         */
+        if (!(_lastLogged instanceof Date)){
+            this.#lastLogged = new Date();
+            return false;
+        }
+        this.#lastLogged = new Date();
+        return true;
+
+    }
+
+    setIsLogged(_isLogged) {
+        if (typeof _isLogged !== "boolean"){
+            this.#isLogged = false;
+            return false;
+        }
+        this.#isLogged = _isLogged;
+        return true;
+    }
 }
 
-
-
-
 module.exports = User;
-
-
-
-
-
