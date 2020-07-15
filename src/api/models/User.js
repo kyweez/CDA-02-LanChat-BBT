@@ -1,3 +1,7 @@
+const security = require("./Security.js");
+const Security = require("./Security.js");
+const { isValidDate } = require("./Security.js");
+
 class User {
     // ############### ATTRIBUTS ###############
     #lastname;
@@ -53,7 +57,7 @@ class User {
 
     // ############### SETTERS ###############
     setLastname(_lastname) {
-        if (typeof _lastname !== "string"){
+        if (Security.isValidName(_lastname)){
             this.#lastname = "";
             return false;
         }
@@ -62,7 +66,7 @@ class User {
     }
 
     setFirstName(_firstname) {
-        if (typeof _firstname !== "string"){
+        if (Security.isValidName(_firstname)){
             this.#firstname = "";
             return false;
         }
@@ -71,7 +75,7 @@ class User {
     }
 
     setUserName(_username) {
-        if (typeof _username !== "string"){
+        if (Security.isValidUsername(_username)){
             this.#username = "";
             return false;
         }
@@ -89,7 +93,7 @@ class User {
     }
 
     setEmail(_email) {
-        if (typeof _email !== "string"){
+        if (Security.isValidEmail(_email)){
             this.#email = "";
             return false;
         }
@@ -101,13 +105,12 @@ class User {
         /**
          * @todo Voir comment on fait changer le truc ?
          */
-        if (!(_lastLogged instanceof Date)){
+        if (Security.isValidDate(_lastLogged)){
             this.#lastLogged = new Date();
             return false;
         }
         this.#lastLogged = new Date();
         return true;
-
     }
 
     setIsLogged(_isLogged) {
