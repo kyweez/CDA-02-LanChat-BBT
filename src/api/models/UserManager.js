@@ -2,31 +2,47 @@ const User = require("./User.js");
 const Security = require("./Security.js");
 
 class UserManager {
+    // ############### ATTRIBUTES ###############
+    #userTab;
+
+    // ############### CONSTRUCTOR ###############
     constructor() {
         this.user = [];
     }
 
+    // ############### METHODS ###############
 
-    isValid(_user) {
-
-
-        if (!(_user instanceof User)) {
-            return false;
-        }
-
-        return true;
+    newID() {
+        /**
+         * @todo Si on supprime le last ID ??? 
+         */
+        let lastId = (this.#userTab.length > 0) ? Math.max(this.#userTab.map(user => user.getId())) : 0;
+        return lastId + 1;
     }
+
     create(_user) {
-        if (this.isValid(_user)) {
-
-
-
-
-            this.user.push(_user);
-        }
-
+        if (!Security.isValidUser(_user))
+            return false;
+        _user.setId(this.newID());
+        this.#userTab.push(_user);
         return _user;
     }
+
+    //@param  _filter le(s) filtre(s) à appliquer sous forme d'expression lambda (ex: item => item.id === 2)
+    read(_filter) {
+        // let currentUser = this.#userTab.find(_filter);
+
+        // if (!Security.isValidUser(currentUser))
+        //     return undefined;
+        // return Object.assign(new User(), currentUser);
+        return Object.assign(new User(), this.#userTab.find(_filter));
+    }
+
+    /**
+     * ICI ON A STOP  !!
+     */
+    
+    update(){}
 
     delete(_username) {
         for (let i = 0; i < this.user.length; i++) {
@@ -38,46 +54,38 @@ class UserManager {
         }
 
     }
-    updateEmail(_user, _email) {
-        if (!(typeof email === 'string')) {
-            console.log("Le mail n'est pas dans le bon format");
-            return;
-        }
-        if (!(_email.length > 7)) {
-            console.log("Le mail est pas assez long");
-            return;
-        }
-        
-        _user.email = _email;
-    }
-    updateUsername(_user, _username) {
-        if (!(typeof _username === 'string')) {
-            console.log("Le nom n'est pas dans le bon format");
-            return;
-        }
-        if (!(_username.length > 0)) {
-            console.log("Le nom n'est pas assez long");
-            return;
-        }
-        
-        _user.username = _username;
-    }
-    updatePassword(_user,_password){
-        if (!(_password.length > 6)) {
-            console.log("Le mot de passe n'est pas assez long");
-            return;
-        }
-    }
-    read(_username) {
 
-        let user1 = this.user.find(user1 => user1.username === parseInt(_username));
+    // updateEmail(_user, _email) {
+    //     if (!(typeof email === 'string')) {
+    //         console.log("Le mail n'est pas dans le bon format");
+    //         return;
+    //     }
+    //     if (!(_email.length > 7)) {
+    //         console.log("Le mail est pas assez long");
+    //         return;
+    //     }
 
-        if (user1 !== undefined) {
-            let clone = Object.assign(new User(), user1);
-            return clone;
-        }
+    //     _user.email = _email;
+    // }
+    // updateUsername(_user, _username) {
+    //     if (!(typeof _username === 'string')) {
+    //         console.log("Le nom n'est pas dans le bon format");
+    //         return;
+    //     }
+    //     if (!(_username.length > 0)) {
+    //         console.log("Le nom n'est pas assez long");
+    //         return;
+    //     }
 
-        return undefined;
-    }
+    //     _user.username = _username;
+    // }
+    // updatePassword(_user, _password) {
+    //     if (!(_password.length > 6)) {
+    //         console.log("Le mot de passe n'est pas assez long");
+    //         return;
+    //     }
+    // }
+
+
 }
 module.exports = UserManager;
