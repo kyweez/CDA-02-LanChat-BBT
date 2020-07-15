@@ -11,7 +11,7 @@ class Security {
         return true;
     }
 
-    static isValidDate(_date){
+    static isValidDate(_date) {
         if (!(_date instanceof Date))
             return false;
         if (_date > new Date())
@@ -29,19 +29,42 @@ class Security {
         return Security.isValidString(_string, regexUser);
     }
 
-    static isValidEmail(_string){
+    static isValidEmail(_string) {
         return Security.isValidString(_string, regexEmail);
+    }
+
+    static isValidUser(_user) {
+        if (!(_user instanceof User))
+            return false;
+        return true;
+    }
+
+    static isValidNumber(_number) {
+        if (typeof _number !== "number")
+            return false;
+        if (!isFinite(_number))
+            return false;
+        return true;
+    }
+
+    static isValidId(_id) {
+        if (!Security.isValidNumber(_id))
+            return false;
+        if (_id < 0)
+            return false;
+        return true;
     }
 }
 
+let number1 = -10;
+let number2 = NaN;
+let number3 = Infinity;
+let number4 = -Infinity;
+let number5 = "123";
 
-let date_mdr = new Date("2020-07-16");
-let date_mdr2 = new Date("2020-06-16");
-
-console.log(date_mdr);
-console.log(Security.isValidDate(date_mdr));
-console.log(Security.isValidDate(date_mdr2));
-
-
-
+console.log(Security.isValidId(number1));
+console.log(Security.isValidId(number3));
+console.log(Security.isValidId(number2));
+console.log(Security.isValidId(number4));
+console.log(Security.isValidId(number5));
 module.exports = Security;
