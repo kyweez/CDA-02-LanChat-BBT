@@ -71,28 +71,22 @@ class User {
     }
 
     setLastname(_lastname) {
-        if (!Security.isValidName(_lastname)) {
-            this.#lastname = "";
+        if (!Security.isValidName(_lastname))
             return false;
-        }
         this.#lastname = _lastname;
         return true;
     }
 
     setFirstname(_firstname) {
-        if (!Security.isValidName(_firstname)) {
-            this.#firstname = "";
+        if (!Security.isValidName(_firstname))
             return false;
-        }
         this.#firstname = _firstname;
         return true;
     }
 
     setUserName(_username) {
-        if (!Security.isValidUsername(_username)) {
-            this.#username = "";
+        if (!Security.isValidUsername(_username))
             return false;
-        }
         this.#username = _username;
         return true
     }
@@ -107,24 +101,14 @@ class User {
     }
 
     setEmail(_email) {
-        if (!Security.isValidEmail(_email)) {
-            this.#email = "";
+        if (!Security.isValidEmail(_email))
             return false;
-        }
         this.#email = _email;
         return true
     }
 
-    setLastLogged(_lastLogged) {
-        /**
-         * @todo Voir comment on fait changer le truc ?
-         */
-        if (!Security.isValidDate(_lastLogged)) {
-            this.#lastLogged = new Date();
-            return false;
-        }
+    setLastLogged() {
         this.#lastLogged = new Date();
-        return true;
     }
 
     setIsLogged(_isLogged) {
