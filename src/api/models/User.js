@@ -1,4 +1,5 @@
 const Security = require("./Security.js");
+const UserManager = require("./UserManager.js");
 
 class User {
     // ############### ATTRIBUTES ###############
@@ -62,10 +63,10 @@ class User {
 
     // ############### SETTERS ###############
     setId(_id) {
-        if (!Security.isValidId(_id)) {
-            this.#id = 0;
+        if (!Security.isValidId(_id))
             return false;
-        }
+        if (!UserManager.isUniqueId(_id))
+            return false;
         this.#id = _id;
         return true;
     }
@@ -131,6 +132,19 @@ class User {
         str += `Password  : ${this.#password}\n`;
         return str;
     }
+
+    copy(_user) {
+        if (!Security.isValidUser(_user))
+            return false;
+        if (!UserManager.hasUniqueAttributes(_user))
+            return false;
+        this.#lastname = _user.getLastname();
+        this.#firstname = _user.getFirstname();
+        this.#username = _user.getUsername();
+        this.#password = _user.getPassword();
+        this.#email = _user.getEmail();
+        return true;
+    }
 }
 
 let userTest1 = new User("aure", "boubou", "boudaure", "123", "aure@gmail.com");
@@ -155,7 +169,3 @@ console.log(Security.isValidPassword(userTest2.getPassword()))
 console.log(Security.isValidPassword(userTest2))
 
 module.exports = User;
-
-
-
-
