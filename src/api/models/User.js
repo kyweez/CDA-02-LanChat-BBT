@@ -140,25 +140,31 @@ class User {
     toString() {
         let str;
 
-        str = `Lastname : ${this.#lastname}\n`;
+        str = `Lastname  : ${this.#lastname}\n`;
         str += `Firstname : ${this.#firstname}\n`;
-        str += `Username : ${this.#username}\n`;
-        str += `Email : ${this.#email}\n`;
-        str += `Password : ${this.#password}\n`;
+        str += `Username  : ${this.#username}\n`;
+        str += `Email     : ${this.#email}\n`;
+        str += `Password  : ${this.#password}\n`;
+        return str;
     }
 }
 
 let userTest1 = new User("aure", "boubou", "boudaure", "123", "aure@gmail.com");
+let userTest2 = new User("aure", "boubou", "boudaure", "123", "aure@gmail.com");
+let userTest3 = new User("aure", "boubou", "boudaure", "abc", "aure@gmail.com");
 
-console.log(userTest1 instanceof User);
-console.log(userTest1.getLastname());
-console.log(userTest1.getFirstname());
-console.log(userTest1.getUsername());
-console.log(userTest1.getEmail());
-console.log(userTest1 instanceof User);
+console.log(userTest1.toString());
+console.log(userTest2.toString());
+console.log(userTest3.toString());
 
-console.log('le dernier console.log ', userTest1.getPassword());
-console.log(Security.checkEncryptedPassword("1234", userTest1.getPassword()));
+console.log(`Test avec bon passsword     : ${Security.checkEncryptedPassword("123", userTest1.getPassword())}`);
+console.log(`Test avec mauvais passsword : ${Security.checkEncryptedPassword("1234", userTest1.getPassword())}\n`);
+
+console.log(`Test avec bon passsword     : ${Security.checkEncryptedPassword("123", userTest2.getPassword())}`);
+console.log(`Test avec mauvais passsword : ${Security.checkEncryptedPassword("1234", userTest2.getPassword())}\n`);
+
+console.log(`Test avec bon passsword     : ${Security.checkEncryptedPassword("abc", userTest3.getPassword())}`);
+console.log(`Test avec mauvais passsword : ${Security.checkEncryptedPassword("1234", userTest3.getPassword())}\n`);
 
 module.exports = User;
 
