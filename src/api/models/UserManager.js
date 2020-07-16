@@ -13,8 +13,7 @@ class UserManager {
     }
 
     // ############### GETTER ###############
-    getUserTab()
-    {
+    getUserTab() {
         return this.#userTab;
     }
 
@@ -37,50 +36,50 @@ class UserManager {
         return Object.assign(new User(), this.#userTab.find(_filter));
     }
 
-    update(_filter, _dataToUpdate){}
-
-    delete(_username) {
-        for (let i = 0; i < this.user.length; i++) {
-            if (this.user[i].username == _username) {
-                this.user.splice(i, 1);
-                break;
-
-            }
-        }
-
+    update(_filter, _user) {
+        user = this.#userTab.find(_filter);
+        if (user === undefined)
+            return user;
+        user.copy(_user);
+        return user;
     }
 
-    // updateEmail(_user, _email) {
-    //     if (!(typeof email === 'string')) {
-    //         console.log("Le mail n'est pas dans le bon format");
-    //         return;
-    //     }
-    //     if (!(_email.length > 7)) {
-    //         console.log("Le mail est pas assez long");
-    //         return;
-    //     }
+    delete(_filter) {
+        let indexToDelete = this.userTab.findIndex(_filter);
+        if (indexToDelete === -1)
+            return false;
+        this.userTab.splice(indexToDelete, 1);
+        return true;
+    }
 
-    //     _user.email = _email;
-    // }
-    // updateUsername(_user, _username) {
-    //     if (!(typeof _username === 'string')) {
-    //         console.log("Le nom n'est pas dans le bon format");
-    //         return;
-    //     }
-    //     if (!(_username.length > 0)) {
-    //         console.log("Le nom n'est pas assez long");
-    //         return;
-    //     }
+    static isUniqueId(_id) {
+        if ((this.getUserTab().find(item => item.getId() === _id)) !== undefined)
+            return false;
+        return true;
+    }
 
-    //     _user.username = _username;
-    // }
-    // updatePassword(_user, _password) {
-    //     if (!(_password.length > 6)) {
-    //         console.log("Le mot de passe n'est pas assez long");
-    //         return;
-    //     }
-    // }
+    static isUniqueUsername(_username) {
+        if ((this.getUserTab().find(item => item.getUsername() === _username)) !== undefined)
+            return false;
+        return true;
+    }
 
+    static isUniqueEmail(_email) {
+        if ((this.getUserTab().find(item => item.getEmail() === _email)) !== undefined)
+            return false;
+        return true;
+    }
 
+    static hasUniqueAttributes(_user) {
+        if (!this.isUniqueId(_user.getId()))
+            return false;
+        if (!this.isUniqueUsername(_user.getUsername()))
+            return false;
+        if (!this.isUniqueEmail(_user.getEmail()))
+            return false;
+        return true;
+
+    }
 }
+
 module.exports = UserManager;
