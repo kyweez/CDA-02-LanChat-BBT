@@ -8,8 +8,14 @@ class UserManager {
 
     // ############### CONSTRUCTOR ###############
     constructor() {
-        this.user = [];
+        this.userTab = [];
         this.#lastId = 0;
+    }
+
+    // ############### GETTER ###############
+    getUserTab()
+    {
+        return this.#userTab;
     }
 
     // ############### METHODS ###############
@@ -23,15 +29,15 @@ class UserManager {
     }
 
     //@param  _filter le(s) filtre(s) à appliquer sous forme d'expression lambda (ex: item => item.id === 2)
+    /**
+     * @todo : A tester !!!!
+     * @param callback _filter 
+     */
     read(_filter) {
         return Object.assign(new User(), this.#userTab.find(_filter));
     }
 
-    /**
-     * ICI ON A STOP  !!
-     */
-
-    update(){}
+    update(_filter, _dataToUpdate){}
 
     delete(_username) {
         for (let i = 0; i < this.user.length; i++) {
