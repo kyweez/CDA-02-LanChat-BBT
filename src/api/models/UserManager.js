@@ -1,82 +1,85 @@
-const User = require('./User.js');
+const User = require("./User.js");
+const Security = require("./Security.js");
 
 class UserManager {
+    // ############### ATTRIBUTES ###############
+    #userTab;
+    #lastId;
+
+    // ############### CONSTRUCTOR ###############
     constructor() {
-        this.user = [];
+        this.userTab = [];
+        this.#lastId = 0;
     }
 
-
-    isValid(_user) {
-
-
-        if (!(_user instanceof User)) {
-            return false;
-        }
-
-        return true;
+    // ############### GETTER ###############
+    getUserTab() {
+        return this.#userTab;
     }
+
+    // ############### METHODS ###############
+
     create(_user) {
-        if (this.isValid(_user)) {
-
-
-
-
-            this.user.push(_user);
-        }
-
+        if (!Security.isValidUser(_user))
+            return undefined;
+        _user.setId(++this.#lastId);
+        this.#userTab.push(_user);
         return _user;
     }
 
-    delete(_username) {
-        for (let i = 0; i < this.user.length; i++) {
-            if (this.user[i].username == _username) {
-                this.user.splice(i, 1);
-                break;
-
-            }
-        }
-
+    //@param  _filter le(s) filtre(s) à appliquer sous forme d'expression lambda (ex: item => item.id === 2)
+    /**
+     * @todo : A tester !!!!
+     * @param callback _filter 
+     */
+    read(_filter) {
+        return Object.assign(new User(), this.#userTab.find(_filter));
     }
-    updateEmail(_user, _email) {
-        if (!(typeof email === 'string')) {
-            console.log("Le mail n'est pas dans le bon format");
-            return;
-        }
-        if (!(_email.length > 7)) {
-            console.log("Le mail est pas assez long");
-            return;
-        }
-        
-        _user.email = _email;
-    }
-    updateUsername(_user, _username) {
-        if (!(typeof _username === 'string')) {
-            console.log("Le nom n'est pas dans le bon format");
-            return;
-        }
-        if (!(_username.length > 0)) {
-            console.log("Le nom n'est pas assez long");
-            return;
-        }
-        
-        _user.username = _username;
-    }
-    updatePassword(_user,_password){
-        if (!(_password.length > 6)) {
-            console.log("Le mot de passe n'est pas assez long");
-            return;
-        }
-    }
-    read(_username) {
 
-        let user1 = this.user.find(user1 => user1.username === parseInt(_username));
+    update(_filter, _user) {
+        user = this.#userTab.find(_filter);
+        if (user === undefined)
+            return user;
+        user.copy(_user);
+        return user;
+    }
 
-        if (user1 !== undefined) {
-            let clone = Object.assign(new User(), user1);
-            return clone;
-        }
+    delete(_filter) {
+        let indexToDelete = this.userTab.findIndex(_filter);
+        if (indexToDelete === -1)
+            return false;
+        this.userTab.splice(indexToDelete, 1);
+        return true;
+    }
 
-        return undefined;
+    static isUniqueId(_id) {
+        if ((this.getUserTab().find(item => item.getId() === _id)) !== undefined)
+            return false;
+        return true;
+    }
+
+    static isUniqueUsername(_username) {
+        if ((this.getUserTab().find(item => item.getUsername() === _username)) !== undefined)
+            return false;
+        return true;
+    }
+
+    static isUniqueEmail(_email) {
+        if ((this.getUserTab().find(item => item.getEmail() === _email)) !== undefined)
+            return false;
+        return true;
+    }
+
+    static hasUniqueAttributes(_user) {
+        if (!this.isUniqueId(_user.getId()))
+            return false;
+        if (!this.isUniqueUsername(_user.getUsername()))
+            return false;
+        if (!this.isUniqueEmail(_user.getEmail()))
+            return false;
+        return true;
+
     }
 }
+
 module.exports = UserManager;

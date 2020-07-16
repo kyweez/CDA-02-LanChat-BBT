@@ -1,7 +1,9 @@
-const user = require("./User.js");
+const bcrypt = require('bcrypt');
+
 const regexName = /^([A-Za-z]{2,30})([ \-]{1})?([A-Za-z]{2,30})$/;
 const regexUser = /^([a-zA-Z0-9]{1,9})([a-zA-Z]{1,2})([a-zA-Z0-9]{1,9})$/;
 const regexEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[#$%*+=])[A-Za-z\d#$%*+=]{8,}$/;
 
 class Security {
     static isValidString(_string, _regex) {
@@ -12,7 +14,7 @@ class Security {
         return true;
     }
 
-    static isValidDate(_date){
+    static isValidDate(_date) {
         if (!(_date instanceof Date))
             return false;
         if (_date > new Date())
@@ -30,19 +32,69 @@ class Security {
         return Security.isValidString(_string, regexUser);
     }
 
-    static isValidEmail(_string){
+    static isValidEmail(_string) {
         return Security.isValidString(_string, regexEmail);
     }
+
+    static isValidUser(_user) {
+        if (!(_user instanceof User))
+            return false;
+        if (!this.isValidId(_user.getId()))
+            return false;
+        if (!this.isValidName(_user.getLastname()) || !this.isValidName(_user.getFirstname()))
+            return false;
+        if (!this.isValidUsername(_user.getUsername()))
+            return false;
+        if (!this.isValidEmail(_user.getEmail()))
+            return false;
+        if (!this.isValidDate(_user.getCreationDate()))
+            return false;
+        /** @todo : Implementation password */
+        if (!this.isValidPassword(_user.getPassword()))
+            return false;
+        return true;
+    }
+
+    /**
+     * @todo : A reflechir pour implementation
+     * @param string _password 
+     */
+    static isValidPassword(_password) {
+        if (!(typeof _password === "string"))
+            return false;
+        if (!(_password.length > 0))
+            return false;
+        return true;
+    }
+
+    static isValidNumber(_number) {
+        if (typeof _number !== "number")
+            return false;
+        if (!isFinite(_number))
+            return false;
+        return true;
+    }
+
+    static isValidId(_id) {
+        if (!Security.isValidNumber(_id))
+            return false;
+        if (_id < 0)
+            return false;
+        return true;
+    }
+
+    static encryptPassword(_plainTextPassword) {
+        if (!this.isValidString(_plainTextPassword, regexPassword))
+            return "";
+        return bcrypt.hashSync(_plainTextPassword, 10);
+    }
+
+    static checkEncryptedPassword(_userInput, _passwordDB) {
+        /**
+         * @todo : Proteger le truc
+         */
+        return bcrypt.compareSync(_userInput, _passwordDB);
+    }
 }
-
-
-let date_mdr = new Date("2020-07-16");
-let date_mdr2 = new Date("2020-06-16");
-
-console.log(date_mdr);
-console.log(Security.isValidDate(date_mdr));
-console.log(Security.isValidDate(date_mdr2));
-
-
 
 module.exports = Security;
