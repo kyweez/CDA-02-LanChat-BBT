@@ -150,6 +150,10 @@ console.log(`Test avec mauvais passsword : ${Security.checkEncryptedPassword("12
 console.log(`Test avec bon passsword     : ${Security.checkEncryptedPassword("abc", userTest3.getPassword())}`);
 console.log(`Test avec mauvais passsword : ${Security.checkEncryptedPassword("1234", userTest3.getPassword())}\n`);
 
+console.log(Security.isValidPassword(userTest3.getPassword()))
+console.log(Security.isValidPassword(userTest2.getPassword()))
+console.log(Security.isValidPassword(userTest2))
+
 module.exports = User;
 
 
