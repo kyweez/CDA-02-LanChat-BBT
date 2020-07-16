@@ -14,16 +14,6 @@ class Security {
         return true;
     }
 
-    static isValidDate(_date) {
-        if (!(_date instanceof Date))
-            return false;
-        if (_date > new Date())
-            return false;
-        if (_date.getFullYear < 2020)
-            return false;
-        return true;
-    }
-
     static isValidName(_string) {
         return Security.isValidString(_string, regexName);
     }
