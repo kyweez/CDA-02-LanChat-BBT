@@ -14,6 +14,16 @@ class Security {
         return true;
     }
 
+    static isValidDate(_date) {
+        if (!(_date instanceof Date))
+            return false;
+        if (_date > new Date())
+            return false;
+        if (_date.getFullYear < 2020)
+            return false;
+        return true;
+    }
+
     static isValidName(_string) {
         return Security.isValidString(_string, regexName);
     }
@@ -28,6 +38,31 @@ class Security {
 
     static isValidUser(_user) {
         if (!(_user instanceof User))
+            return false;
+        if (!this.isValidId(_user.getId()))
+            return false;
+        if (!this.isValidName(_user.getLastname()) || !this.isValidName(_user.getFirstname()))
+            return false;
+        if (!this.isValidUsername(_user.getUsername()))
+            return false;
+        if (!this.isValidEmail(_user.getEmail()))
+            return false;
+        if (!this.isValidDate(_user.getCreationDate()))
+            return false;
+        /** @todo : Implementation password */
+        if (!this.isValidPassword(_user.getPassword()))
+            return false;
+        return true;
+    }
+
+    /**
+     * @todo : A reflechir pour implementation
+     * @param string _password 
+     */
+    static isValidPassword(_password) {
+        if (!(typeof _password === "string"))
+            return false;
+        if (!(_password.length > 0))
             return false;
         return true;
     }
@@ -48,13 +83,13 @@ class Security {
         return true;
     }
 
-    static encryptPassword(_plainTextPassword){
+    static encryptPassword(_plainTextPassword) {
         if (!this.isValidString(_plainTextPassword, regexPassword))
             return "";
         return bcrypt.hashSync(_plainTextPassword, 10);
     }
-    
-    static checkEncryptedPassword(_userInput, _passwordDB){
+
+    static checkEncryptedPassword(_userInput, _passwordDB) {
         /**
          * @todo : Proteger le truc
          */
