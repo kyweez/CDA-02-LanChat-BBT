@@ -4,26 +4,20 @@ const Security = require("./Security.js");
 class UserManager {
     // ############### ATTRIBUTES ###############
     #userTab;
+    #lastId;
 
     // ############### CONSTRUCTOR ###############
     constructor() {
         this.user = [];
+        this.#lastId = 0;
     }
 
     // ############### METHODS ###############
 
-    newID() {
-        /**
-         * @todo Si on supprime le last ID ??? 
-         */
-        let lastId = (this.#userTab.length > 0) ? Math.max(this.#userTab.map(user => user.getId())) : 0;
-        return lastId + 1;
-    }
-
     create(_user) {
         if (!Security.isValidUser(_user))
             return undefined;
-        _user.setId(this.newID());
+        _user.setId(++this.#lastId);
         this.#userTab.push(_user);
         return _user;
     }
