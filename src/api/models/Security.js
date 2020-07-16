@@ -95,6 +95,24 @@ class Security {
          */
         return bcrypt.compareSync(_userInput, _passwordDB);
     }
+
+    static isUniqueId(_userManager, _id) {
+        if ((_userManager.getUserTab().find(item => item.getId() === _id)) !== undefined)
+            return false;
+        return true;
+    }
+
+    static isUniqueUsername(_userManager, _username) {
+        if ((_userManager.getUserTab().find(item => item.getUsername() === _username)) !== undefined)
+            return false;
+        return true;
+    }
+
+    static isUniqueEmail(_userManager, _email) {
+        if ((_userManager.getUserTab().find(item => item.getEmail() === _email)) !== undefined)
+            return false;
+        return true;
+    }
 }
 
 module.exports = Security;
