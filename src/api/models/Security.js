@@ -45,7 +45,6 @@ class Security {
      * It can't contain numbers
      * It can contain a dash or a space, no more special chars
      * @param string _string
-     * @param regex regexName
      * @returns boolean
      */
     static isValidName(_string) {
@@ -65,10 +64,23 @@ class Security {
         return Security.isValidString(_string, regexUser);
     }
 
+    /**
+     * This method checks if the input string is a valid email
+     * The email validity depends on the associated regex
+     * @param string _string
+     * @returns boolean
+     */
     static isValidEmail(_string) {
         return Security.isValidString(_string, regexEmail);
     }
 
+    /**
+     * This method checks if the input object is a valid User
+     * A valid User needs t o respect a list of constraints
+     * It must have the following valid attributes : Id, lastname, firstname, username, email, creationDate, password 
+     * @param User _user
+     * @returns boolean
+     */
     static isValidUser(_user) {
         if (!(_user instanceof User))
             return false;
@@ -89,8 +101,11 @@ class Security {
     }
 
     /**
+     * At the moment, this method checks if the argument might be a password
+     * The implementation might change depending on the decision we'll take about password management
      * @todo : A reflechir pour implementation
-     * @param string _password 
+     * @param string _password
+     * @returns boolean
      */
     static isValidPassword(_password) {
         if (!(typeof _password === "string"))
@@ -100,6 +115,11 @@ class Security {
         return true;
     }
 
+    /**
+     * This method checks if the given argument is a valid number (excluding Infinty and NaN)
+     * @param int _number
+     * @returns boolean
+     */
     static isValidNumber(_number) {
         if (typeof _number !== "number")
             return false;
@@ -108,6 +128,12 @@ class Security {
         return true;
     }
 
+    /**
+     * Tnis method checks if the given argument is a valid id
+     * This id must be a positive integer
+     * @param int _id
+     * @returns boolean
+     */
     static isValidId(_id) {
         if (!Security.isValidNumber(_id))
             return false;
@@ -116,6 +142,13 @@ class Security {
         return true;
     }
 
+    /**
+     * This method translate a plaintext password into an encrypted password
+     * The plaintext password has to fit to the regex
+     * The encryption depends on the salt
+     * @param string _plainTextPassword
+     * @returns encrypted password (string)
+     */
     static encryptPassword(_plainTextPassword) {
         if (!this.isValidString(_plainTextPassword, regexPassword))
             return "";
