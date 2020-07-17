@@ -1,11 +1,20 @@
 const bcrypt = require('bcrypt');
 
+/**
+ * @todo Regex a retravailler car nom trop court pas pris en compte
+ */
 const regexName = /^([A-Za-z]{2,30})([ \-]{1})?([A-Za-z]{2,30})$/;
 const regexUser = /^([a-zA-Z0-9]{1,9})([a-zA-Z]{1,2})([a-zA-Z0-9]{1,9})$/;
 const regexEmail = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[#$%*+=])[A-Za-z\d#$%*+=]{8,}$/;
 
 class Security {
+    /**
+     * This method checks wether the input string is valid or not
+     * @param string _string 
+     * @param string _regex
+     * @returns boolean true if the string fits to the constraints
+     */
     static isValidString(_string, _regex) {
         if (typeof _string !== "string")
             return false;
@@ -14,6 +23,12 @@ class Security {
         return true;
     }
 
+    /**
+     * This method checks if the input date is valid
+     * The valid date can't be in the future and can't be before 2020 (since the API is created in 2020)
+     * @param Date _date
+     * @returns boolean
+     */
     static isValidDate(_date) {
         if (!(_date instanceof Date))
             return false;
@@ -24,10 +39,28 @@ class Security {
         return true;
     }
 
+    /**
+     * This method checks if the input string is a valid name
+     * Name can't exceed 61 characters
+     * It can't contain numbers
+     * It can contain a dash or a space, no more special chars
+     * @param string _string
+     * @param regex regexName
+     * @returns boolean
+     */
     static isValidName(_string) {
         return Security.isValidString(_string, regexName);
     }
 
+    /**
+     * This method checks if the input string is a valid username
+     * A username cant exceed 20 chararcters
+     * It can't contains special chars
+     * It can contain number but not only
+     * It needs at least one letter
+     * @param string _string
+     * @returns boolean
+     */
     static isValidUsername(_string) {
         return Security.isValidString(_string, regexUser);
     }
