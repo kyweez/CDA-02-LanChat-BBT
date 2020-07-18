@@ -155,10 +155,19 @@ class Security {
         return bcrypt.hashSync(_plainTextPassword, 10);
     }
 
+    /**
+     * This method checks if the input password fit to the given hash (related to the account)
+     * @param string _userInput 
+     * @param string _passwordDB
+     * @returns boolean 
+     */
     static checkEncryptedPassword(_userInput, _passwordDB) {
-        /**
-         * @todo : Proteger le truc
-         */
+        if (Security.isValidPassword(_userInput))
+            return false;
+        if (typeof _passwordDB !== "string")
+            return false;
+        if (_passwordDB.length === 0)
+            return false;
         return bcrypt.compareSync(_userInput, _passwordDB);
     }
 }
