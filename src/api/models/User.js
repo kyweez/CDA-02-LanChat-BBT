@@ -14,6 +14,22 @@ class User {
     #isLogged;
 
     // ############### CONSTRUCTOR ###############
+    /**
+     * User class constructor
+     * @param string _lastname
+     * This variable must be a string between 2 and 60 chars.
+     * It can contains several spaces and dashes but not more than 1 in a row, can't start or finish by it
+     * @param string _firstname
+     * This variable must be a string between 2 and 60 chars.
+     * It can contains several spaces and dashes but not more than 1 in a row, can't start or finish by it
+     * @param string _username
+     * This variable can contain only 20 characters and minimum 3
+     * It can contain number and letters, but not exclusively numbers
+     * @param string _password
+     * This variable must have at least 8 characters, included a capital, a special char and a number
+     * @param string _email
+     * This variable must fit to the mail regex given in the Security class
+     */
     constructor(_lastname, _firstname, _username, _password, _email) {
         this.#id = 0;
         this.setLastname(_lastname) || this.setLastname("");
@@ -25,43 +41,75 @@ class User {
     }
 
     // ############### GETTERS ###############
+    /**
+     * @returns int
+     */
     getId() {
         return this.#id;
     }
 
+    /**
+     * @returns string
+     */
     getLastname() {
         return this.#lastname;
     }
 
+    /**
+     * @returns string
+     */
     getFirstname() {
         return this.#firstname;
     }
 
+    /**
+     * @returns string
+     */
     getUsername() {
         return this.#username;
     }
 
+    /**
+     * @returns string
+     */
     getPassword() {
         return this.#password;
     }
 
+    /**
+     * @returns string
+     */
     getEmail() {
         return this.#email;
     }
 
+    /**
+     * @returns Date
+     */
     getCreationDate() {
         return this.#creationDate;
     }
 
+    /**
+     * @returns Date
+     */
     getLastLogged() {
         return this.#lastLogged;
     }
 
+    /**
+     * @returns boolean
+     */
     getIsLogged() {
         return this.#isLogged;
     }
 
     // ############### SETTERS ###############
+    /**
+     * This setter checks if the given int is a valid Id and if it's unique before setting the value
+     * @param int _id
+     * @returns boolean (true if it worked, false if if it didn't)
+     */
     setId(_id) {
         if (!Security.isValidId(_id))
             return false;
@@ -71,6 +119,11 @@ class User {
         return true;
     }
 
+    /**
+     * This setter checks if the given string is a valid name before setting the value
+     * @param string _lastname 
+     * @returns boolean (true if it worked, false if if it didn't)
+     */
     setLastname(_lastname) {
         if (!Security.isValidName(_lastname))
             return false;
@@ -78,6 +131,11 @@ class User {
         return true;
     }
 
+    /**
+     * This setter checks if the given string is a valid name before setting the value
+     * @param string _firstname 
+     * @returns boolean (true if it worked, false if it didn't)
+     */
     setFirstname(_firstname) {
         if (!Security.isValidName(_firstname))
             return false;
@@ -85,6 +143,11 @@ class User {
         return true;
     }
 
+    /**
+     * This setter checks if the given string is a valid username before setting the value
+     * @param string _username
+     * @returns boolean (true if it worked, false if it didn't)
+     */
     setUserName(_username) {
         if (!Security.isValidUsername(_username))
             return false;
@@ -92,6 +155,12 @@ class User {
         return true
     }
 
+    /**
+     * This setter checks if the given password is a string and if it respects the password constraints given in the Security class
+     * It encrypts this password and returns the hash. If there is a problem, the return password will be an empty string.
+     * @param string _password 
+     * @returns boolean (true if it worked, false if it didn't)
+     */
     setPassword(_password) {
         if (typeof _password !== "string") {
             this.#password = "";
@@ -101,6 +170,11 @@ class User {
         return true;
     }
 
+    /**
+     * This setter checks if the given argument is a valid email before setting the value
+     * @param string _email 
+     * @returns boolean (true if it worked, false if it didn't)
+     */
     setEmail(_email) {
         if (!Security.isValidEmail(_email))
             return false;
@@ -108,10 +182,18 @@ class User {
         return true
     }
 
+    /**
+     * This setter simply update the date of the lastLogged attribute
+     */
     setLastLogged() {
         this.#lastLogged = new Date();
     }
 
+    /**
+     * This setter checks if the given argument is a valid boolean before setting the value
+     * @param boolean _isLogged 
+     * @returns boolean (true if the value has beem updated, false if it didn't suceed)
+     */
     setIsLogged(_isLogged) {
         if (typeof _isLogged !== "boolean") {
             this.#isLogged = false;
@@ -122,6 +204,11 @@ class User {
     }
 
     // ############### METHODS ###############
+    /**
+     * This method returns the most important information about the current object
+     * It will be deleted later, we just need it during the programming to make some tests
+     * @returns string
+     */
     toString() {
         let str;
 
@@ -133,6 +220,12 @@ class User {
         return str;
     }
 
+    /**
+     * This method takes a User object as an argument
+     * If the given user is a valid user and his attributes are uniques, every attributes are copied in the current object
+     * @param User _user
+     * @returns boolean (true if it worked, false if it didn't)
+     */
     copy(_user) {
         if (!Security.isValidUser(_user))
             return false;
@@ -146,26 +239,5 @@ class User {
         return true;
     }
 }
-
-let userTest1 = new User("aure", "boubou", "boudaure", "123", "aure@gmail.com");
-let userTest2 = new User("aure", "boubou", "boudaure", "123", "aure@gmail.com");
-let userTest3 = new User("aure", "boubou", "boudaure", "abc", "aure@gmail.com");
-
-console.log(userTest1.toString());
-console.log(userTest2.toString());
-console.log(userTest3.toString());
-
-console.log(`Test avec bon passsword     : ${Security.checkEncryptedPassword("123", userTest1.getPassword())}`);
-console.log(`Test avec mauvais passsword : ${Security.checkEncryptedPassword("1234", userTest1.getPassword())}\n`);
-
-console.log(`Test avec bon passsword     : ${Security.checkEncryptedPassword("123", userTest2.getPassword())}`);
-console.log(`Test avec mauvais passsword : ${Security.checkEncryptedPassword("1234", userTest2.getPassword())}\n`);
-
-console.log(`Test avec bon passsword     : ${Security.checkEncryptedPassword("abc", userTest3.getPassword())}`);
-console.log(`Test avec mauvais passsword : ${Security.checkEncryptedPassword("1234", userTest3.getPassword())}\n`);
-
-console.log(Security.isValidPassword(userTest3.getPassword()))
-console.log(Security.isValidPassword(userTest2.getPassword()))
-console.log(Security.isValidPassword(userTest2))
 
 module.exports = User;
