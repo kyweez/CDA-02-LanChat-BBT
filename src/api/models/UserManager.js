@@ -43,7 +43,7 @@ class UserManager {
 
     /**
      * This method takes a callback as a parameter and returns the desire object if it's found
-     * @param function callback (ex: item => item.id === 2)
+     * @param callback (ex: item => item.id === 2)
      * This call back finds the object in the DB with an id === 2
      * If nothing is found, returns undefined, else returns the object found
      * @returns User
@@ -57,7 +57,7 @@ class UserManager {
      * If the object is found, and if the user given as an argument is valid and has unique attributes, update the found object by a copy
      * If the object is found, and if the user given as an argument isn't valid, returns the found object without updating it
      * If the object is not found, returns undefined
-     * @param function callback (ex: item => item.id === 2)
+     * @param callback (ex: item => item.id === 2)
      * This call back finds the object in the DB with an id === 2
      * If nothing is found, returns undefined, else returns the object found
      * @param User _user
@@ -75,7 +75,7 @@ class UserManager {
      * This method looks for an object to delete, depending on the given callback
      * If the object is not found, returns false and nothing is deleted
      * Else delete the line and returns true
-     * @param function callback (ex: item => item.id === 2)
+     * @param callback (ex: item => item.id === 2)
      * This call back finds the object in the DB with an id === 2
      * If nothing is found, returns undefined, else returns the object found
      * @returns boolean (true if it worked, false if it didn't)

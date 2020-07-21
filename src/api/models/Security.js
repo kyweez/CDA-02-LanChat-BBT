@@ -170,32 +170,6 @@ class Security {
     static isValidUsername(_username) {
         return Security.isValidString(_username, regexUser);
     }
-
-    /**
-     * This method checks if the input object is a valid User
-     * A valid User needs t o respect a list of constraints
-     * It must have the following valid attributes : Id, lastname, firstname, username, email, creationDate, password 
-     * @param User _user
-     * @returns boolean
-     */
-    static isValidUser(_user) {
-        if (!(_user instanceof User))
-            return false;
-        if (!this.isValidId(_user.getId()))
-            return false;
-        if (!this.isValidName(_user.getLastname()) || !this.isValidName(_user.getFirstname()))
-            return false;
-        if (!this.isValidUsername(_user.getUsername()))
-            return false;
-        if (!this.isValidEmail(_user.getEmail()))
-            return false;
-        if (!this.isValidDate(_user.getCreationDate()))
-            return false;
-        /** @todo : Implementation password */
-        if (!this.isValidPassword(_user.getPassword()))
-            return false;
-        return true;
-    }
 }
 
 module.exports = Security;
