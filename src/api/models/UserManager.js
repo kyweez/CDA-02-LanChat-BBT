@@ -25,7 +25,7 @@ class UserManager {
         return this.#userTab;
     }
 
-    // ############### METHODS ###############
+    // ############### CRUD ###############
     /**
      * This method create a new entry in the DB.
      * It checks if the given User is valid and it pushes in the DB.
@@ -40,7 +40,6 @@ class UserManager {
         this.#userTab.push(_user);
         return _user;
     }
-
 
     /**
      * This method takes a callback as a parameter and returns the desire object if it's found
@@ -89,6 +88,37 @@ class UserManager {
         return true;
     }
 
+    // ############### METHODS ###############
+    /**
+     * This method checks if the given User has unique ID/username/email (don't already exists in the DB)
+     * @param User _user 
+     * @returns boolean(true if the all three attributes are unique, false either)
+     */
+    static hasUniqueAttributes(_user) {
+        if (!Security.isValidUser(_user))
+            return false;
+        if (!this.isUniqueId(_user.getId()))
+            return false;
+        if (!this.isUniqueUsername(_user.getUsername()))
+            return false;
+        if (!this.isUniqueEmail(_user.getEmail()))
+            return false;
+        return true;
+    }
+
+    /**
+     * This method checks if the given email is unique (doesn't already exists in the DB)
+     * @param string _email 
+     * @returns boolean(true if it's unique, false either)
+     */
+    static isUniqueEmail(_email) {
+        if (!Security.isUniqueEmail(_email))
+            return false;
+        if ((this.getUserTab().find(item => item.getEmail() === _email)) !== undefined)
+            return false;
+        return true;
+    }
+
     /**
      * This method checks if the given ID is unique (doesn't already exists in the DB)
      * @param int _id
@@ -111,36 +141,6 @@ class UserManager {
         if (!Security.isValidUsername(_username))
             return false;
         if ((this.getUserTab().find(item => item.getUsername() === _username)) !== undefined)
-            return false;
-        return true;
-    }
-
-    /**
-     * This method checks if the given email is unique (doesn't already exists in the DB)
-     * @param string _email 
-     * @returns boolean(true if it's unique, false either)
-     */
-    static isUniqueEmail(_email) {
-        if (!Security.isUniqueEmail(_email))
-            return false;
-        if ((this.getUserTab().find(item => item.getEmail() === _email)) !== undefined)
-            return false;
-        return true;
-    }
-
-    /**
-     * This method checks if the given User has unique ID/username/email (don't already exists in the DB)
-     * @param User _user 
-     * @returns boolean(true if the all three attributes are unique, false either)
-     */
-    static hasUniqueAttributes(_user) {
-        if (!Security.isValidUser(_user))
-            return false;
-        if (!this.isUniqueId(_user.getId()))
-            return false;
-        if (!this.isUniqueUsername(_user.getUsername()))
-            return false;
-        if (!this.isUniqueEmail(_user.getEmail()))
             return false;
         return true;
     }
