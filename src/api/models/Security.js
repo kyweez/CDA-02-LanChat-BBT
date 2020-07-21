@@ -10,17 +10,32 @@ const regexPassword = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[#$%*+=])[A-Za-z\d#$%*+=]{8,}
 
 class Security {
     /**
-     * This method checks wether the input string is valid or not
-     * @param string _string 
-     * @param string _regex
-     * @returns boolean true if the string fits to the constraints
+     * This method checks if the input password fit to the given hash (related to the account)
+     * @param string _userInput 
+     * @param string _passwordDB
+     * @returns boolean 
      */
-    static isValidString(_string, _regex) {
-        if (typeof _string !== "string")
+    static checkEncryptedPassword(_userInput, _passwordDB) {
+        if (Security.isValidPassword(_userInput))
             return false;
-        if (!(_string.match(_regex)))
+        if (typeof _passwordDB !== "string")
             return false;
-        return true;
+        if (_passwordDB.length === 0)
+            return false;
+        return bcrypt.compareSync(_userInput, _passwordDB);
+    }
+ 
+    /**
+     * This method translate a plaintext password into an encrypted password
+     * The plaintext password has to fit to the regex
+     * The encryption depends on the salt
+     * @param string _plainTextPassword
+     * @returns encrypted password (string)
+     */
+    static encryptPassword(_plainTextPassword) {
+        if (!this.isValidString(_plainTextPassword, regexPassword))
+            return "";
+        return bcrypt.hashSync(_plainTextPassword, 10);
     }
 
     /**
@@ -40,38 +55,81 @@ class Security {
     }
 
     /**
+     * This method checks if the input string is a valid email
+     * The email validity depends on the associated regex
+     * @param string _email
+     * @returns boolean
+     */
+    static isValidEmail(_email) {
+        return Security.isValidString(_email, regexEmail);
+    }
+    
+    /**
+     * Tnis method checks if the given argument is a valid id
+     * This id must be a positive integer
+     * @param int _id
+     * @returns boolean
+     */
+    static isValidId(_id) {
+        if (!Security.isValidNumber(_id))
+            return false;
+        if (_id < 0)
+            return false;
+        return true;
+    }
+    
+    /**
      * This method checks if the input string is a valid name
      * Name can't exceed 61 characters
      * It can't contain numbers
      * It can contain a dash or a space, no more special chars
-     * @param string _string
+     * @param string _name
      * @returns boolean
      */
-    static isValidName(_string) {
-        return Security.isValidString(_string, regexName);
+    static isValidName(_name) {
+        return Security.isValidString(_name, regexName);
     }
 
     /**
-     * This method checks if the input string is a valid username
-     * A username cant exceed 20 chararcters
-     * It can't contains special chars
-     * It can contain number but not only
-     * It needs at least one letter
-     * @param string _string
+     * This method checks if the given argument is a valid number (excluding Infinty and NaN)
+     * @param int _number
      * @returns boolean
      */
-    static isValidUsername(_string) {
-        return Security.isValidString(_string, regexUser);
+    static isValidNumber(_number) {
+        if (typeof _number !== "number")
+            return false;
+        if (!isFinite(_number))
+            return false;
+        return true;
+    }
+    
+    /**
+     * At the moment, this method checks if the argument might be a password
+     * The implementation might change depending on the decision we'll take about password management
+     * @todo : A reflechir pour implementation
+     * @param string _password
+     * @returns boolean
+     */
+    static isValidPassword(_password) {
+        if (!(typeof _password === "string"))
+            return false;
+        if (!(_password.length > 0))
+            return false;
+        return true;
     }
 
     /**
-     * This method checks if the input string is a valid email
-     * The email validity depends on the associated regex
-     * @param string _string
-     * @returns boolean
+     * This method checks wether the input string is valid or not
+     * @param string _string 
+     * @param string _regex
+     * @returns boolean true if the string fits to the constraints
      */
-    static isValidEmail(_string) {
-        return Security.isValidString(_string, regexEmail);
+    static isValidString(_string, _regex) {
+        if (typeof _string !== "string")
+            return false;
+        if (!(_string.match(_regex)))
+            return false;
+        return true;
     }
 
     /**
@@ -101,74 +159,16 @@ class Security {
     }
 
     /**
-     * At the moment, this method checks if the argument might be a password
-     * The implementation might change depending on the decision we'll take about password management
-     * @todo : A reflechir pour implementation
-     * @param string _password
+     * This method checks if the input string is a valid username
+     * A username cant exceed 20 chararcters
+     * It can't contains special chars
+     * It can contain number but not only
+     * It needs at least one letter
+     * @param string _username
      * @returns boolean
      */
-    static isValidPassword(_password) {
-        if (!(typeof _password === "string"))
-            return false;
-        if (!(_password.length > 0))
-            return false;
-        return true;
-    }
-
-    /**
-     * This method checks if the given argument is a valid number (excluding Infinty and NaN)
-     * @param int _number
-     * @returns boolean
-     */
-    static isValidNumber(_number) {
-        if (typeof _number !== "number")
-            return false;
-        if (!isFinite(_number))
-            return false;
-        return true;
-    }
-
-    /**
-     * Tnis method checks if the given argument is a valid id
-     * This id must be a positive integer
-     * @param int _id
-     * @returns boolean
-     */
-    static isValidId(_id) {
-        if (!Security.isValidNumber(_id))
-            return false;
-        if (_id < 0)
-            return false;
-        return true;
-    }
-
-    /**
-     * This method translate a plaintext password into an encrypted password
-     * The plaintext password has to fit to the regex
-     * The encryption depends on the salt
-     * @param string _plainTextPassword
-     * @returns encrypted password (string)
-     */
-    static encryptPassword(_plainTextPassword) {
-        if (!this.isValidString(_plainTextPassword, regexPassword))
-            return "";
-        return bcrypt.hashSync(_plainTextPassword, 10);
-    }
-
-    /**
-     * This method checks if the input password fit to the given hash (related to the account)
-     * @param string _userInput 
-     * @param string _passwordDB
-     * @returns boolean 
-     */
-    static checkEncryptedPassword(_userInput, _passwordDB) {
-        if (Security.isValidPassword(_userInput))
-            return false;
-        if (typeof _passwordDB !== "string")
-            return false;
-        if (_passwordDB.length === 0)
-            return false;
-        return bcrypt.compareSync(_userInput, _passwordDB);
+    static isValidUsername(_username) {
+        return Security.isValidString(_username, regexUser);
     }
 }
 

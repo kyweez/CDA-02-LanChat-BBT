@@ -205,22 +205,6 @@ class User {
 
     // ############### METHODS ###############
     /**
-     * This method returns the most important information about the current object
-     * It will be deleted later, we just need it during the programming to make some tests
-     * @returns string
-     */
-    toString() {
-        let str;
-
-        str = `Lastname  : ${this.#lastname}\n`;
-        str += `Firstname : ${this.#firstname}\n`;
-        str += `Username  : ${this.#username}\n`;
-        str += `Email     : ${this.#email}\n`;
-        str += `Password  : ${this.#password}\n`;
-        return str;
-    }
-
-    /**
      * This method takes a User object as an argument
      * If the given user is a valid user and his attributes are uniques, every attributes are copied in the current object
      * @param User _user
@@ -237,6 +221,22 @@ class User {
         this.#password = _user.getPassword();
         this.#email = _user.getEmail();
         return true;
+    }
+
+    /**
+     * This method returns the most important information about the current object
+     * It will be deleted later, we just need it during the programming to make some tests
+     * @returns string
+     */
+    toString() {
+        let str;
+
+        str = `Lastname  : ${this.#lastname}\n`;
+        str += `Firstname : ${this.#firstname}\n`;
+        str += `Username  : ${this.#username}\n`;
+        str += `Email     : ${this.#email}\n`;
+        str += `Password  : ${this.#password}\n`;
+        return str;
     }
 }
 
