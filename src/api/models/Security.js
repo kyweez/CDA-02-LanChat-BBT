@@ -44,11 +44,11 @@ class Security {
      * Name can't exceed 61 characters
      * It can't contain numbers
      * It can contain a dash or a space, no more special chars
-     * @param string _string
+     * @param string _name
      * @returns boolean
      */
-    static isValidName(_string) {
-        return Security.isValidString(_string, regexName);
+    static isValidName(_name) {
+        return Security.isValidString(_name, regexName);
     }
 
     /**
@@ -57,21 +57,21 @@ class Security {
      * It can't contains special chars
      * It can contain number but not only
      * It needs at least one letter
-     * @param string _string
+     * @param string _username
      * @returns boolean
      */
-    static isValidUsername(_string) {
-        return Security.isValidString(_string, regexUser);
+    static isValidUsername(_username) {
+        return Security.isValidString(_username, regexUser);
     }
 
     /**
      * This method checks if the input string is a valid email
      * The email validity depends on the associated regex
-     * @param string _string
+     * @param string _email
      * @returns boolean
      */
-    static isValidEmail(_string) {
-        return Security.isValidString(_string, regexEmail);
+    static isValidEmail(_email) {
+        return Security.isValidString(_email, regexEmail);
     }
 
     /**
