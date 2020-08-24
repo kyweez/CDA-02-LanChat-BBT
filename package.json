@@ -29,6 +29,6 @@
   },
   "homepage": "https://github.com/kyweez/CDA-02-LanChat-BBT#readme",
   "dependencies": {
-    "bcrypt": "^4.0.1"
+    "bcrypt": "^5.0.0"
   }
 }
